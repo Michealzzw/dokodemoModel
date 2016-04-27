@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
   
 public class BaiduMap {  
       
-    public static final String KEY_1 = "7d9fbeb43e975cd1e9477a7e5d5e192a";  
+    public static final String KEY_1 = "1QdeSF3EUBXWSXNzNfWBeWiTLBhQmv4W";  
     static Vector<String> airport = new Vector<String>();
 	public static int readFileByLines(String fileName) {
         File file = new File(fileName);
@@ -55,7 +55,7 @@ public class BaiduMap {
 //       如果有代理，要设置代理，没代理可注释  
 //      System.setProperty("http.proxyHost","192.168.1.188");  
 //      System.setProperty("http.proxyPort","3128");  
-            URL tirc = new URL("http://api.map.baidu.com/geocoder?address="+ address +"&output=json&key="+ KEY_1);  
+            URL tirc = new URL("http://api.map.baidu.com/geocoder/v2/?address="+ address +"&output=json&ak="+ KEY_1);  
               
             in = new BufferedReader(new InputStreamReader(tirc.openStream(),"UTF-8"));  
             String res;  
@@ -95,8 +95,6 @@ public class BaiduMap {
     	for (int i = 0;i<airport.size();i++)
     	{    		
     		Map<String, String> json = BaiduMap.getGeocoderLatitude(airport.elementAt(i)+"火车站");
-    		if (json==null) json = BaiduMap.getGeocoderLatitude(airport.elementAt(i)+"站");
-    		if (json==null) json = BaiduMap.getGeocoderLatitude(airport.elementAt(i));
     		if (json==null)
     		{
     			System.out.println(airport.elementAt(i));
