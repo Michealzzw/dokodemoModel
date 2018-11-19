@@ -1,5 +1,9 @@
 StationCityReGen
 getRouteData
-getRouteUsingTrainRe
+StationCity
+getRouteUsingTrainRe -> ControlGetRoute
+getRouteMergeHighSpeed
+GenerateSeeder
+GenerateSeederPlane
 
 TrainRoute 处理朱近的城市

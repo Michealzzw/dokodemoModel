@@ -27,7 +27,7 @@ public class BaiduMap {
             //tempString = reader.readLine();
             line = 0;
             while ((tempString = reader.readLine()) != null) {
-            	String[] list = tempString.split(" ");
+            	String[] list = tempString.split("\t");
             	airport.addElement(list[0]);
             }
             reader.close();
@@ -90,11 +90,14 @@ public class BaiduMap {
         return null;  
     }  
     public static void main(String args[]) throws IOException{
-    	readFileByLines("MultiRouteStation.txt");
-    	FileWriter fw = new FileWriter("trainStation_position.txt");
+    	//readFileByLines("MultiRouteStation.txt");
+    	readFileByLines("UnHub2HubStation.txt");
+//    	FileWriter fw = new FileWriter("trainStation_position.txt");
+    	FileWriter fw = new FileWriter("UnHubtrainStation_position.txt");
     	for (int i = 0;i<airport.size();i++)
     	{    		
-    		Map<String, String> json = BaiduMap.getGeocoderLatitude(airport.elementAt(i)+"火车站");
+    		Map<String, String> json = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i)+"火车站");
+    		Map<String, String> tmp = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i)+"火车站");
     		if (json==null)
     		{
     			System.out.println(airport.elementAt(i));
@@ -102,6 +105,16 @@ public class BaiduMap {
     		}
     		else
     		{
+    			int num = 0;
+    			while ((Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")))*(Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")))+
+        				(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")))*(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")))>0.01)
+        		{
+        			json = tmp;
+        			tmp = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i)+"火车站");
+        			System.out.println(num++);
+        			System.out.println(Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")));
+        			System.out.println(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")));
+        		}
     			fw.write(airport.elementAt(i)+"\t"+json.get("lng")+"\t"+json.get("lat")+"\n");  
     		}
     	}

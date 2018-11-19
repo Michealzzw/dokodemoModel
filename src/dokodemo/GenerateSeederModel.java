@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-public class GenerateSeeder {
+public class GenerateSeederModel {
 	static HashMap<String,Integer> Airport = new HashMap<String,Integer>();
 	static FileWriter fw;
 	static HashMap<String,Integer> Station_Hub = new HashMap<String,Integer>();
@@ -149,11 +149,12 @@ public class GenerateSeeder {
 			String schedule="";
 			String[] stat = new String[list.length/4];
 			for (int i = 1;i<list.length;i+=4)
-				if (Station_ID.containsKey(list[i]))
+			if (Station_ID.containsKey(list[i]))
 			{
 				schedule += Station_ID.get(list[i])+"\t"+list[i+1]+"\t"+list[i+2]+"\\n";
 				stat[i/4] = list[i];
 			}
+			else System.out.println(list[i]);
 			if (schedule.length()>maxtrain) maxtrain =schedule.length(); 
 			fw.write("Train::create([\'train_no\' => \'"+list[0]+
 					"\',\'train_schedule\' => \'"+schedule+ "\']);\n");
@@ -173,7 +174,7 @@ public class GenerateSeeder {
 							"\',\'stat_id\' => \'"+Station_ID.get(stat[i])+ "\']);\n");
 				else
 				{
-					System.out.println(stat[i]);
+					//System.out.println(stat[i]);
 				}
 				}
 			

@@ -52,6 +52,7 @@ public class StationCity {
             line = 0;
             while ((tempString = reader.readLine()) != null) {
             	String[] list = tempString.split(" ");
+            	if(!list[2].equals("null"))
             	Pair_Dis.put(list[0]+" "+list[1], Integer.parseInt(list[2]));
             }
             reader.close();
@@ -96,9 +97,12 @@ public class StationCity {
             			{
             				int tmp = 0;
             				if (Pair_Dis.containsKey(pre+" "+list[i])) tmp = Pair_Dis.get(pre+" "+list[i]);
-            				else tmp = Pair_Dis.get(list[i]+" "+pre);
+            				else if (Pair_Dis.containsKey(list[i]+" "+pre)) tmp = Pair_Dis.get(list[i]+" "+pre);
+            				if (tmp!=0)
+            				{
             				fw.write("\t"+tmp+"\t"+list[i]);
             				pre = list[i];
+            				}
             			}
             		}
             	}

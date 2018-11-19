@@ -94,6 +94,7 @@ public class BaiduMapTrain {
     	for (int i = 0;i<airport.size();i++)
     	{    		
     		Map<String, String> json = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i));
+    		Map<String, String> tmp = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i));
     		if (json==null)
     		{
     			System.out.println(airport.elementAt(i));
@@ -101,6 +102,16 @@ public class BaiduMapTrain {
     		}
     		else
     		{
+    			int num = 0;
+    			while ((Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")))*(Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")))+
+        				(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")))*(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")))>0.01)
+        		{
+        			json = tmp;
+        			tmp = BaiduMapTrain.getGeocoderLatitude(airport.elementAt(i));
+        			System.out.println(num++);
+        			System.out.println(Double.parseDouble(tmp.get("lng"))-Double.parseDouble(json.get("lng")));
+        			System.out.println(Double.parseDouble(tmp.get("lat"))-Double.parseDouble(json.get("lat")));
+        		}
     			fw.write(airport.elementAt(i)+"\t"+json.get("lng")+"\t"+json.get("lat")+"\n");  
     		}
     	}
